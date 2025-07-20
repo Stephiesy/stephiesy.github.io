@@ -1,0 +1,493 @@
+:root {
+    --primary: #8B5CF6;
+    --primary-dark: #7C3AED;
+    --secondary: #C4B5FD;
+    --background: #F5F3FF;
+    --text: #1F1F1F;
+    --text-light: #4B5563;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #181a20;
+    color: #f1f1f1;
+    font-family: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* 颗粒感纹理效果 */
+.noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.05;
+    z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* 导航栏样式 */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: #23242a;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: #f1f1f1;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #00c3ff;
+}
+
+/* 英雄区域样式 */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(196, 181, 253, 0.1));
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: #00c3ff;
+    color: #181a20;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,195,255,0.2);
+}
+
+.cta-button:hover {
+    background: #0099cc;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* 第一部分：关于我 文字漂浮背景 */
+.about-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #181a20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.floating-text-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+.floating-word {
+    position: absolute;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    opacity: 0.12;
+    transition: transform 0.3s, opacity 0.3s;
+    pointer-events: auto;
+    user-select: none;
+    will-change: transform, opacity;
+}
+.floating-word:hover {
+    opacity: 0.35;
+    transform: scale(1.18) !important;
+    z-index: 2;
+}
+.about-title {
+    position: relative;
+    z-index: 2;
+    font-size: 4rem;
+    color: #fff;
+    letter-spacing: 0.2em;
+    text-shadow: 0 4px 32px #000a;
+}
+
+/* 第二部分：海的味道 全屏照片轮播 */
+.ocean-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: #10131a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ocean-slider {
+    position: absolute;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    overflow: hidden;
+}
+.ocean-slide {
+    position: absolute;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    filter: brightness(0.55) grayscale(10%);
+    transition: opacity 1.2s;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ocean-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+.ocean-slide-content {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    z-index: 3;
+    background: none;
+    padding: 40px 48px;
+    border-radius: 20px;
+    box-shadow: none;
+    text-shadow: 0 4px 32px #000a, 0 2px 8px #0008;
+}
+.ocean-slide-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.15em;
+}
+.ocean-slide-content p {
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+}
+.ocean-slider-controls {
+    position: absolute;
+    bottom: 40px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 60px;
+    z-index: 10;
+}
+.ocean-slider-controls span {
+    font-size: 3rem;
+    color: #00c3ff;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+    background: rgba(24,26,32,0.5);
+    border-radius: 50%;
+    padding: 0 18px;
+}
+.ocean-slider-controls span:hover {
+    color: #fff;
+    background: #00c3ff33;
+}
+
+/* 关于部分样式 */
+.about {
+    padding: 6rem 2rem;
+    background: white;
+}
+
+.about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--primary);
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.skills span {
+    padding: 0.5rem 1rem;
+    background: #23242a;
+    border-radius: 20px;
+    color: #00c3ff;
+    font-weight: 500;
+    margin: 0 8px 8px 0;
+    display: inline-block;
+}
+
+/* 作品集样式 */
+.portfolio {
+    padding: 6rem 2rem;
+    background: var(--background);
+}
+
+.portfolio-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.portfolio-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+    background: #23242a;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.portfolio-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: rgba(24,26,32,0.8);
+    color: #fff;
+}
+
+/* 联系部分样式 */
+.contact {
+    padding: 6rem 2rem;
+    background: white;
+}
+
+.contact-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.social-links a {
+    color: var(--primary);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-dark);
+}
+
+/* 页脚样式 */
+footer {
+    padding: 24px 0;
+    text-align: center;
+    background: #23242a;
+    color: #aaa;
+    border-top: 1px solid #222;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+    }
+
+    nav ul {
+        display: none;
+    }
+}
+
+/* 个人经历轮播模块 */
+.experience {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.4);
+    min-height: 320px;
+}
+.experience-slider {
+    position: relative;
+    width: 100%;
+    height: 320px;
+}
+.slide {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+.slide-content {
+    background: rgba(24,26,32,0.7);
+    padding: 32px 40px;
+    border-radius: 16px;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+}
+.slider-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 3;
+}
+.slider-controls span {
+    font-size: 2.5rem;
+    color: #00c3ff;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+.slider-controls span:hover {
+    color: #fff;
+}
+
+/* 悬浮动态元素 */
+.floating-elements {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+}
+.floating-dot {
+    position: absolute;
+    width: 12px; height: 12px;
+    background: radial-gradient(circle, #00c3ff 60%, #23242a 100%);
+    border-radius: 50%;
+    opacity: 0.7;
+    box-shadow: 0 0 12px #00c3ff88;
+    animation: float 12s linear infinite;
+}
+@keyframes float {
+    0% { transform: translateY(0) scale(1); opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+}
+
+/* 其它细节优化 */
+::-webkit-scrollbar {
+    width: 8px;
+    background: #23242a;
+}
+::-webkit-scrollbar-thumb {
+    background: #00c3ff;
+    border-radius: 4px;
+}
+
+a {
+    color: #00c3ff;
+    text-decoration: none;
+}
+a:hover {
+    color: #fff;
+} 
