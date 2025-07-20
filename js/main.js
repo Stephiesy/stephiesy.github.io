@@ -203,3 +203,116 @@ document.addEventListener('mousemove', (e) => {
         resetTimer();
     }
 })(); 
+
+// 小船进度动画
+const boat = document.getElementById('boat');
+const lineNodes = document.querySelectorAll('.vertical-line.left .line-node');
+const blocks = document.querySelectorAll('.block');
+let currentBlock = 0;
+
+function updateBoatPosition() {
+    const scrollY = window.scrollY;
+    const wh = window.innerHeight;
+    let totalHeight = 0;
+    let blockTops = [];
+    blocks.forEach((block, i) => {
+        const rect = block.getBoundingClientRect();
+        const top = rect.top + scrollY;
+        blockTops.push(top);
+        totalHeight += block.offsetHeight;
+    });
+    let percent = 0;
+    if (scrollY < blockTops[1] - wh/2) {
+        // block1
+        percent = (scrollY) / (blockTops[1] - wh/2);
+        boat.style.left = '50%';
+        boat.style.top = `calc(${percent*100}% - 20px)`;
+    } else if (scrollY < blockTops[2] - wh/2) {
+        // block2 横向移动
+        boat.style.top = `calc(100% - 20px)`;
+        let hPercent = (scrollY - (blockTops[1] - wh/2)) / ((blockTops[2] - wh/2) - (blockTops[1] - wh/2));
+        boat.style.left = `calc(50% + ${(window.innerWidth-72)/2 * hPercent}px)`;
+    } else {
+        // block3
+        boat.style.left = 'calc(50vw)';
+        let vPercent = (scrollY - (blockTops[2] - wh/2)) / (document.body.scrollHeight - blockTops[2]);
+        boat.style.top = `calc(${vPercent*100}% - 20px)`;
+    }
+}
+window.addEventListener('scroll', updateBoatPosition);
+window.addEventListener('resize', updateBoatPosition);
+setTimeout(updateBoatPosition, 500);
+
+// 漂浮蓝色球
+function createFloatingBalls() {
+    const container = document.querySelector('.floating-balls');
+    for(let i=0;i<8;i++){
+        const ball = document.createElement('div');
+        ball.className = 'ball';
+        const size = 60 + Math.random()*60;
+        ball.style.width = ball.style.height = size+'px';
+        ball.style.left = Math.random()*100+'vw';
+        ball.style.top = Math.random()*100+'vh';
+        ball.style.animationDuration = (10+Math.random()*8)+'s';
+        container.appendChild(ball);
+    }
+}
+createFloatingBalls();
+
+// 漂浮关键词
+function floatKeywords() {
+    const keywords = document.querySelectorAll('.floating-keywords span');
+    keywords.forEach((kw,i)=>{
+        kw.style.left = (10 + Math.random()*80) + '%';
+        kw.style.top = (10 + Math.random()*60) + 'px';
+        kw.style.animationDelay = (Math.random()*6)+'s';
+    });
+}
+floatKeywords();
+
+// 圆角照片轮播
+function setupCarousel(id) {
+    const carousel = document.getElementById(id);
+    if(!carousel) return;
+    const imgs = carousel.querySelectorAll('img');
+    let idx = 0, timer = null;
+    function show(i) {
+        imgs.forEach((img,j)=>img.classList.toggle('active',j===i));
+        idx = i;
+    }
+    function next(){ show((idx+1)%imgs.length); }
+    function prev(){ show((idx-1+imgs.length)%imgs.length); }
+    function start(){ timer = setInterval(next, 3500); }
+    function stop(){ clearInterval(timer); }
+    carousel.querySelector('.next').onclick = next;
+    carousel.querySelector('.prev').onclick = prev;
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    start();
+}
+setupCarousel('carousel-1');
+setupCarousel('carousel-2');
+
+// 横向照片自动滚动
+function setupGallery(cls, dir=1) {
+    const gallery = document.querySelector('.'+cls);
+    if(!gallery) return;
+    let scroll = 0, timer = null;
+    function move() {
+        scroll += dir*1.2;
+        if(scroll > gallery.scrollWidth-gallery.clientWidth) scroll = 0;
+        if(scroll < 0) scroll = gallery.scrollWidth-gallery.clientWidth;
+        gallery.scrollLeft = scroll;
+    }
+    function start(){ timer = setInterval(move, 20); }
+    function stop(){ clearInterval(timer); }
+    gallery.addEventListener('mouseenter', stop);
+    gallery.addEventListener('mouseleave', start);
+    gallery.querySelectorAll('img').forEach(img=>{
+        img.addEventListener('mouseenter', ()=>img.style.transform='scale(1.08)');
+        img.addEventListener('mouseleave', ()=>img.style.transform='');
+    });
+    start();
+}
+setupGallery('gallery-1', -1);
+setupGallery('gallery-2', 1); 
