@@ -299,12 +299,11 @@ function setupCarousel(id) {
     }
     function next(){ show((idx+1)%imgs.length); }
     function prev(){ show((idx-1+imgs.length)%imgs.length); }
-    function start(){ timer = setInterval(next, 3000); }
+    function start(){ timer = setInterval(next, 2000); }
     function stop(){ clearInterval(timer); }
     carousel.querySelector('.next').onclick = next;
     carousel.querySelector('.prev').onclick = prev;
-    carousel.addEventListener('mouseenter', stop);
-    carousel.addEventListener('mouseleave', start);
+    // 移除鼠标悬停暂停轮播
     start();
 }
 setupCarousel('carousel-1');
@@ -351,3 +350,80 @@ function setupBgCarousel(id) {
 }
 setupBgCarousel('carousel-bg'); 
 setupBgCarousel('carousel-ocean'); 
+
+// 横向自动滚动（从左到右，循环）
+function setupAutoScrollGallery(cls, speed = 1.2) {
+    const gallery = document.querySelector('.' + cls);
+    if (!gallery) return;
+    // 只用5张图片，已在HTML中循环排列
+    let tx = 0;
+    let timer = null;
+    const imgs = gallery.querySelectorAll('img');
+    const imgW = imgs[0].offsetWidth + parseInt(getComputedStyle(gallery).gap || 0);
+    const totalW = imgW * imgs.length;
+    function move() {
+        tx -= speed;
+        if (Math.abs(tx) >= imgW * 2) tx = 0; // 5张里有2张是重复的
+        gallery.style.transform = `translateX(${tx}px)`;
+    }
+    gallery.style.transition = 'none';
+    timer = setInterval(move, 16);
+}
+setupAutoScrollGallery('gallery-ocean-full', 1.2); 
+
+function setupMktFloatingDots() {
+    const block = document.querySelector('.mkt-block');
+    const dotsContainer = block.querySelector('.mkt-floating-dots');
+    const blockRect = block.getBoundingClientRect();
+    const W = blockRect.width;
+    const H = blockRect.height;
+    const dots = [];
+    for(let i=0;i<10;i++){
+        const dot = document.createElement('div');
+        dot.className = 'mkt-dot';
+        const size = 18 + Math.random()*32;
+        dot.style.width = dot.style.height = size+'px';
+        let x = Math.random()*(W-size), y = Math.random()*(H-size);
+        let vx = (Math.random()-0.5)*1.2, vy = (Math.random()-0.5)*1.2;
+        dot.style.left = x+'px';
+        dot.style.top = y+'px';
+        dotsContainer.appendChild(dot);
+        dots.push({el:dot, x, y, vx, vy, size});
+    }
+    function animate() {
+        for(const d of dots) {
+            d.x += d.vx;
+            d.y += d.vy;
+            if(d.x < 0) { d.x = 0; d.vx *= -1; }
+            if(d.x > W-d.size) { d.x = W-d.size; d.vx *= -1; }
+            if(d.y < 0) { d.y = 0; d.vy *= -1; }
+            if(d.y > H-d.size) { d.y = H-d.size; d.vy *= -1; }
+            d.el.style.left = d.x+'px';
+            d.el.style.top = d.y+'px';
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+function setupCompanyBlock() {
+    const block = document.querySelector('.company-block');
+    if (!block) return;
+    const items = block.querySelectorAll('.company-item');
+    const groups = block.querySelectorAll('.company-photo-group');
+    function show(company) {
+        items.forEach(i => i.classList.toggle('active', i.dataset.company === company));
+        groups.forEach(g => g.classList.toggle('active', g.dataset.company === company));
+    }
+    // 默认显示第一个
+    show('xdf');
+    items.forEach(item => {
+        item.addEventListener('mouseenter', () => show(item.dataset.company));
+        item.addEventListener('focus', () => show(item.dataset.company));
+        item.addEventListener('click', () => show(item.dataset.company));
+    });
+}
+window.addEventListener('DOMContentLoaded', function() {
+    floatAllTexts && floatAllTexts();
+    setupMktFloatingDots && setupMktFloatingDots();
+    setupCompanyBlock();
+}); 
