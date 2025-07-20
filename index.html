@@ -57,22 +57,25 @@
         </div>
         <h1 class="main-title">KEEP SAILING!<br>STEPHANIE</h1>
     </section>
-    <section class="block ocean-block">
-        <div class="ocean-slider-half block-image">
-            <div class="photo-carousel half-carousel" id="carousel-ocean">
-                <img src="images/exp1.JPG" class="active" />
-                <img src="images/exp2.JPG" />
-                <img src="images/exp3.JPG" />
-                <button class="prev"></button>
-                <button class="next"></button>
-            </div>
+    <section class="block ocean-block" style="position:relative;">
+        <div class="ocean-photo-stack">
+            <img src="images/ocean1.JPG" class="photo-stack-img photo-stack-img1" />
+            <img src="images/ocean2.JPG" class="photo-stack-img photo-stack-img2" />
+            <img src="images/ocean3.JPG" class="photo-stack-img photo-stack-img3" />
+            <img src="images/ocean4.JPG" class="photo-stack-img photo-stack-img4" />
+            <img src="images/ocean5.JPG" class="photo-stack-img photo-stack-img5" />
+            <img src="images/ocean6.JPG" class="photo-stack-img photo-stack-img6" />
         </div>
-        <div class="ocean-content block-content">
+        <div class="ocean-title-top">
             <h2 class="block-title">海洋科学里</h2>
             <h2 class="block-title">做一个拿试管的「渔民」</h2>
-            <ul class="block-list ocean-list">
+        </div>
+        <div class="ocean-list-bottom">
+            <ul class="block-list ocean-list ocean-list-left">
                 <li class="fade-in-item">出海一天吃三餐，一餐吐三次</li>
                 <li class="fade-in-item">养宠人，养的是蛋白质是细胞是论文的希望</li>
+            </ul>
+            <ul class="block-list ocean-list ocean-list-right">
                 <li class="fade-in-item">说好的不学线性代数却学了高数A</li>
                 <li class="fade-in-item">拆快递的利落来自训练生剥麻醉青蛙</li>
             </ul>
@@ -81,14 +84,100 @@
     <!-- 新增全屏照片轮播block -->
     <section class="block photo-bg-block">
         <div class="photo-bg-carousel" id="carousel-bg">
-            <img src="images/ocean1.JPG" class="active" />
-            <img src="images/ocean2.JPG" />
-            <img src="images/ocean3.JPG" />
+            <img src="images/ias1.JPG" class="active" />
+            <img src="images/ias2.JPG" />
+            <img src="images/ias3.JPG" />
+            <img src="images/ias4.JPG" />
         </div>
         <div class="photo-bg-content">
-            <h2 class="photo-bg-title">全屏照片轮播大标题</h2>
-            <div class="photo-bg-text">这里是正文内容，浮在照片上方，照片压暗以保证文字可读性。</div>
+            <h2 class="photo-bg-title">第一次接触市场营销，负责研讨会的宣传与设计</h2>
+            <div class="photo-bg-text">International Abalone Symposium</div>
         </div>
+    </section>
+    <!-- block4 跨界摊主 -->
+    <section class="block cross-block">
+        <div class="cross-imgs">
+            <img src="images/cross1.JPG" class="cross-img cross-img1" />
+            <img src="images/cross2.JPG" class="cross-img cross-img2" />
+        </div>
+        <div class="cross-content">
+            <h2 class="cross-title"><span>成为屏幕后的</span><br><span>「摊主」</span></h2>
+            <div class="cross-subtitle">开启跨界第一章</div>
+        </div>
+    </section>
+    <!-- block5 Marketing -->
+    <section class="block mkt-block">
+        <div class="mkt-floating-dots"></div>
+        <div class="mkt-content">
+            <h2 class="mkt-title">转战Marketing 将「洞察」变成习惯</h2>
+            <div class="mkt-subtitles">
+                <span class="mkt-subtitle mkt-anim">用户行为 Customer Behavior</span>
+                <span class="mkt-subtitle mkt-anim">市场策略 Marketing Strategy</span>
+                <span class="mkt-subtitle mkt-anim">零售营销 Retail Marketing</span>
+                <span class="mkt-subtitle mkt-anim">...</span>
+            </div>
+        </div>
+        <div class="mkt-imgs">
+            <img src="images/mkt1.JPG" class="mkt-img" />
+            <img src="images/mkt2.JPG" class="mkt-img" />
+            <img src="images/mkt3.JPG" class="mkt-img" />
+        </div>
+    </section>
+    <!-- block6 公司logo与照片联动 -->
+    <section class="block company-block">
+        <div class="company-logos">
+            <div class="company-item" data-company="xdf">
+                <img src="images/xdf.png" class="company-logo" />
+                <div class="company-name">新东方</div>
+            </div>
+            <div class="company-item" data-company="bytedance">
+                <img src="images/bytedance.png" class="company-logo" />
+                <div class="company-name">字节跳动</div>
+            </div>
+            <div class="company-item" data-company="ctfe">
+                <img src="images/ctfe.png" class="company-logo" />
+                <div class="company-name">周大福企業</div>
+            </div>
+        </div>
+        <div class="company-photos">
+            <div class="company-photo-group" data-company="xdf">
+                <img src="images/xdf1.JPG" class="company-photo" />
+                <img src="images/xdf2.JPG" class="company-photo" />
+            </div>
+            <div class="company-photo-group" data-company="bytedance">
+                <img src="images/cc1.JPG" class="company-photo" />
+                <img src="images/cc2.JPG" class="company-photo" />
+            </div>
+            <div class="company-photo-group" data-company="ctfe">
+                <img src="images/ctfe1.JPG" class="company-photo" />
+                <img src="images/ctfe2.JPG" class="company-photo" />
+            </div>
+        </div>
+    </section>
+    <!-- block7 产品力大图 -->
+    <section class="block product-bg-block">
+        <div class="product-bg-imgs">
+            <img src="images/xdf1.JPG" class="product-bg-img" />
+            <img src="images/xdf2.JPG" class="product-bg-img" />
+        </div>
+        <div class="product-bg-title">用心做产品是第一竞争力</div>
+    </section>
+    <!-- block8 用户视角大图 -->
+    <section class="block user-bg-block">
+        <div class="user-bg-imgs">
+            <img src="images/cc1.JPG" class="user-bg-img" />
+            <img src="images/cc2.JPG" class="user-bg-img" />
+        </div>
+        <h2 class="user-bg-title">时刻切换用户视角</h2>
+        <h2 class="user-bg-title">第六感很重要，但数据很可靠</h2>
+    </section>
+    <!-- block9 多元大图 -->
+    <section class="block multi-bg-block">
+        <div class="multi-bg-imgs">
+            <img src="images/ctfe1.JPG" class="multi-bg-img" />
+            <img src="images/ctfe2.JPG" class="multi-bg-img" />
+        </div>
+        <div class="multi-bg-title">不要做 1 件事，做 1+ 件事</div>
     </section>
     <script src="js/main.js"></script>
     <script>
