@@ -9,38 +9,40 @@
 </head>
 <body>
     <div class="noise"></div>
-    <header>
-        <nav>
-            <div class="logo">Stephanie</div>
-            <ul>
-                <li><a href="#home">首页</a></li>
-                <li><a href="#about">关于</a></li>
-                <li><a href="#portfolio">作品集</a></li>
-                <li><a href="#contact">联系</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="floating-elements"></div>
+    <header style="display:none;"></header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>你好，我是 Stephanie</h1>
-            <p class="subtitle">创意设计师 & 开发者</p>
-            <a href="#portfolio" class="cta-button">查看作品</a>
-        </div>
+    <!-- 第一部分：关于我 -->
+    <section id="about" class="about-section">
+        <div class="floating-text-bg"></div>
+        <h1 class="about-title">关于我</h1>
     </section>
 
-    <section id="about" class="about">
-        <h2>关于我</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p>我是一名充满激情的设计师和开发者，专注于创造独特的数字体验。我相信设计不仅仅是关于美感，更是关于解决问题和创造价值。</p>
-                <div class="skills">
-                    <span>UI/UX 设计</span>
-                    <span>Web 开发</span>
-                    <span>品牌设计</span>
-                    <span>动画制作</span>
+    <!-- 第二部分：海的味道我知道 全屏照片轮播 -->
+    <section id="ocean" class="ocean-section">
+        <div class="ocean-slider">
+            <div class="ocean-slide active" style="background-image: url('images/ocean1.jpg');">
+                <div class="ocean-slide-content">
+                    <h2>「海的味道」我知道</h2>
+                    <p>大海的辽阔与深邃，像极了人生的旅途。每一次浪花的拍打，都是成长的印记。</p>
                 </div>
             </div>
+            <div class="ocean-slide" style="background-image: url('images/ocean2.jpg');">
+                <div class="ocean-slide-content">
+                    <h2>「海的味道」我知道</h2>
+                    <p>在海边，时间仿佛慢了下来，思绪随风飘远，心灵也变得澄澈。</p>
+                </div>
+            </div>
+            <div class="ocean-slide" style="background-image: url('images/ocean3.jpg');">
+                <div class="ocean-slide-content">
+                    <h2>「海的味道」我知道</h2>
+                    <p>每一张照片，都是与大海的对话，记录着属于我的独特记忆。</p>
+                </div>
+            </div>
+        </div>
+        <div class="ocean-slider-controls">
+            <span class="ocean-prev">&#10094;</span>
+            <span class="ocean-next">&#10095;</span>
         </div>
     </section>
 
@@ -68,6 +70,34 @@
                     <p>健康追踪应用的界面设计</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- 个人经历轮播模块 -->
+    <section id="experience" class="experience">
+        <div class="experience-slider">
+            <div class="slide active" style="background-image: url('images/exp1.jpg');">
+                <div class="slide-content">
+                    <h2>2018-2020：UI 设计师</h2>
+                    <p>在知名互联网公司担任 UI 设计师，主导多个大型项目的界面设计，积累了丰富的实战经验。</p>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('images/exp2.jpg');">
+                <div class="slide-content">
+                    <h2>2020-2022：Web 前端开发</h2>
+                    <p>专注于 Web 前端开发，精通 HTML、CSS、JavaScript，参与多个创新型产品的开发与上线。</p>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('images/exp3.jpg');">
+                <div class="slide-content">
+                    <h2>2022-至今：自由设计师 & 开发者</h2>
+                    <p>作为自由职业者，为多家企业和个人客户提供高质量的设计与开发服务，持续探索数字创意的边界。</p>
+                </div>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <span class="prev">&#10094;</span>
+            <span class="next">&#10095;</span>
         </div>
     </section>
 
