@@ -204,46 +204,7 @@ document.addEventListener('mousemove', (e) => {
     }
 })(); 
 
-// 小船进度动画
-const boat = document.getElementById('boat');
-const lineNodes = document.querySelectorAll('.vertical-line.left .line-node');
-const blocks = document.querySelectorAll('.block');
-let currentBlock = 0;
-
-function updateBoatPosition() {
-    const scrollY = window.scrollY;
-    const wh = window.innerHeight;
-    let totalHeight = 0;
-    let blockTops = [];
-    blocks.forEach((block, i) => {
-        const rect = block.getBoundingClientRect();
-        const top = rect.top + scrollY;
-        blockTops.push(top);
-        totalHeight += block.offsetHeight;
-    });
-    let percent = 0;
-    if (scrollY < blockTops[1] - wh/2) {
-        // block1
-        percent = (scrollY) / (blockTops[1] - wh/2);
-        boat.style.left = '50%';
-        boat.style.top = `calc(${percent*100}% - 20px)`;
-    } else if (scrollY < blockTops[2] - wh/2) {
-        // block2 横向移动
-        boat.style.top = `calc(100% - 20px)`;
-        let hPercent = (scrollY - (blockTops[1] - wh/2)) / ((blockTops[2] - wh/2) - (blockTops[1] - wh/2));
-        boat.style.left = `calc(50% + ${(window.innerWidth-72)/2 * hPercent}px)`;
-    } else {
-        // block3
-        boat.style.left = 'calc(50vw)';
-        let vPercent = (scrollY - (blockTops[2] - wh/2)) / (document.body.scrollHeight - blockTops[2]);
-        boat.style.top = `calc(${vPercent*100}% - 20px)`;
-    }
-}
-window.addEventListener('scroll', updateBoatPosition);
-window.addEventListener('resize', updateBoatPosition);
-setTimeout(updateBoatPosition, 500);
-
-// 漂浮蓝色球
+// 漂浮蓝色发光小球
 function createFloatingBalls() {
     const container = document.querySelector('.floating-balls');
     for(let i=0;i<8;i++){
@@ -253,31 +214,78 @@ function createFloatingBalls() {
         ball.style.width = ball.style.height = size+'px';
         ball.style.left = Math.random()*100+'vw';
         ball.style.top = Math.random()*100+'vh';
-        ball.style.opacity = 0.35 + Math.random()*0.15;
-        ball.style.animationDuration = (10+Math.random()*8)+'s';
+        ball.style.opacity = 0.32 + Math.random()*0.12;
+        ball.style.animationDuration = (7+Math.random()*6)+'s';
         container.appendChild(ball);
     }
 }
 createFloatingBalls();
 
-// 漂浮关键词
-function floatKeywords() {
-    const keywords = document.querySelectorAll('.floating-keywords span');
-    const sizes = ['size1','size2','size3'];
-    keywords.forEach((kw,i)=>{
-        kw.classList.add(sizes[Math.floor(Math.random()*sizes.length)]);
-        kw.style.left = (10 + Math.random()*80) + '%';
-        kw.style.top = (10 + Math.random()*60) + 'px';
-        kw.style.animationDelay = (Math.random()*6)+'s';
-        kw.addEventListener('mouseenter', ()=>{
-            kw.style.animationPlayState = 'paused';
+// 全局漂浮关键词自由游走+旋转，悬停时停止运动并放大
+function randomFloat(min, max) { return min + Math.random() * (max - min); }
+function floatAllTexts() {
+    const texts = document.querySelectorAll('.floating-text-bg .float-text');
+    const container = document.querySelector('.hero-section');
+    const containerRect = container.getBoundingClientRect();
+    const containerW = containerRect.width;
+    const containerH = containerRect.height;
+    texts.forEach((el, i) => {
+        // 随机初始位置
+        let left = randomFloat(2, 90); // 百分比
+        let top = randomFloat(2, 90);
+        el.style.left = left + '%';
+        el.style.top = top + '%';
+        el.style.fontSize = randomFloat(1.2, 2.5) + 'rem';
+        el.style.opacity = randomFloat(0.10, 0.18);
+        // 速度和方向
+        let dx = randomFloat(-2.5, 2.5), dy = randomFloat(-2.5, 2.5);
+        const speed = randomFloat(7, 14);
+        const rotSpeed = randomFloat(-0.5, 0.5);
+        let t = 0;
+        let paused = false;
+        let scale = 1;
+        // 计算元素自身宽高
+        let elW = 0, elH = 0;
+        setTimeout(() => {
+            elW = el.offsetWidth;
+            elH = el.offsetHeight;
+        }, 100);
+        function animate() {
+            if (!paused) {
+                t += 0.016;
+                // 计算实际像素位置
+                let px = (left / 100) * containerW + Math.sin(t / speed * Math.PI * 2 + i) * dx * 120;
+                let py = (top / 100) * containerH + Math.cos(t / speed * Math.PI * 2 + i) * dy * 120;
+                // 边界检测与回弹
+                let bounced = false;
+                if (px < 0) { px = 0; dx = Math.abs(dx) * 0.7; bounced = true; }
+                if (px + elW > containerW) { px = containerW - elW; dx = -Math.abs(dx) * 0.7; bounced = true; }
+                if (py < 0) { py = 0; dy = Math.abs(dy) * 0.7; bounced = true; }
+                if (py + elH > containerH) { py = containerH - elH; dy = -Math.abs(dy) * 0.7; bounced = true; }
+                // 缓慢回弹（速度变小）
+                if (bounced) {
+                    // 轻微减速
+                    dx *= 0.95;
+                    dy *= 0.95;
+                }
+                el.style.transform = `translate(${px - (left/100)*containerW}px,${py - (top/100)*containerH}px) rotate(${t * rotSpeed * 20}deg) scale(${scale})`;
+            }
+            requestAnimationFrame(animate);
+        }
+        el.addEventListener('mouseenter', () => {
+            paused = true;
+            scale = 1.18;
         });
-        kw.addEventListener('mouseleave', ()=>{
-            kw.style.animationPlayState = '';
+        el.addEventListener('mouseleave', () => {
+            paused = false;
+            scale = 1;
         });
+        animate();
     });
 }
-floatKeywords();
+window.addEventListener('DOMContentLoaded', function() {
+    floatAllTexts();
+});
 
 // 圆角照片轮播
 function setupCarousel(id) {
@@ -291,7 +299,7 @@ function setupCarousel(id) {
     }
     function next(){ show((idx+1)%imgs.length); }
     function prev(){ show((idx-1+imgs.length)%imgs.length); }
-    function start(){ timer = setInterval(next, 3500); }
+    function start(){ timer = setInterval(next, 3000); }
     function stop(){ clearInterval(timer); }
     carousel.querySelector('.next').onclick = next;
     carousel.querySelector('.prev').onclick = prev;
@@ -300,7 +308,6 @@ function setupCarousel(id) {
     start();
 }
 setupCarousel('carousel-1');
-setupCarousel('carousel-2');
 
 // 横向照片自动滚动
 function setupGallery(cls, dir=1) {
@@ -308,12 +315,12 @@ function setupGallery(cls, dir=1) {
     if(!gallery) return;
     let scroll = 0, timer = null;
     function move() {
-        scroll += dir*1.2;
+        scroll += dir*1.5;
         if(scroll > gallery.scrollWidth-gallery.clientWidth) scroll = 0;
         if(scroll < 0) scroll = gallery.scrollWidth-gallery.clientWidth;
         gallery.scrollLeft = scroll;
     }
-    function start(){ timer = setInterval(move, 20); }
+    function start(){ timer = setInterval(move, 16); }
     function stop(){ clearInterval(timer); }
     gallery.addEventListener('mouseenter', stop);
     gallery.addEventListener('mouseleave', start);
@@ -323,5 +330,24 @@ function setupGallery(cls, dir=1) {
     });
     start();
 }
-setupGallery('gallery-1', -1);
-setupGallery('gallery-2', 1); 
+setupGallery('gallery-1', -1); 
+
+// 全屏照片轮播自动切换
+function setupBgCarousel(id) {
+    const carousel = document.getElementById(id);
+    if(!carousel) return;
+    const imgs = carousel.querySelectorAll('img');
+    let idx = 0, timer = null;
+    function show(i) {
+        imgs.forEach((img,j)=>img.classList.toggle('active',j===i));
+        idx = i;
+    }
+    function next(){ show((idx+1)%imgs.length); }
+    function start(){ timer = setInterval(next, 3000); }
+    function stop(){ clearInterval(timer); }
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    start();
+}
+setupBgCarousel('carousel-bg'); 
+setupBgCarousel('carousel-ocean'); 
