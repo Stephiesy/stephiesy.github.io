@@ -253,6 +253,7 @@ function createFloatingBalls() {
         ball.style.width = ball.style.height = size+'px';
         ball.style.left = Math.random()*100+'vw';
         ball.style.top = Math.random()*100+'vh';
+        ball.style.opacity = 0.35 + Math.random()*0.15;
         ball.style.animationDuration = (10+Math.random()*8)+'s';
         container.appendChild(ball);
     }
@@ -262,10 +263,18 @@ createFloatingBalls();
 // 漂浮关键词
 function floatKeywords() {
     const keywords = document.querySelectorAll('.floating-keywords span');
+    const sizes = ['size1','size2','size3'];
     keywords.forEach((kw,i)=>{
+        kw.classList.add(sizes[Math.floor(Math.random()*sizes.length)]);
         kw.style.left = (10 + Math.random()*80) + '%';
         kw.style.top = (10 + Math.random()*60) + 'px';
         kw.style.animationDelay = (Math.random()*6)+'s';
+        kw.addEventListener('mouseenter', ()=>{
+            kw.style.animationPlayState = 'paused';
+        });
+        kw.addEventListener('mouseleave', ()=>{
+            kw.style.animationPlayState = '';
+        });
     });
 }
 floatKeywords();
